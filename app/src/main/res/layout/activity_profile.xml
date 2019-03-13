@@ -5,6 +5,90 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".Profile">
+        tools:context=".Profile" android:background="@drawable/background">
 
+    <TextView
+            android:text="E-Mail"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:id="@+id/emailText"
+            android:paddingLeft="16dp"
+            android:paddingTop="12dp"
+            app:layout_constraintStart_toEndOf="@+id/editText4"
+            android:background="@drawable/rounded_text" android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@+id/logoutButton" android:layout_marginBottom="90dp"
+            app:layout_constraintBottom_toTopOf="@+id/logoutButton"/>
+    <TextView
+            android:text="Last Name"
+            android:layout_height="50dp"
+            android:id="@+id/lastnameText"
+            android:paddingLeft="16dp"
+            android:paddingTop="12dp"
+            app:layout_constraintStart_toEndOf="@+id/editText3"
+            android:background="@drawable/rounded_text" android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@+id/emailText"
+            android:layout_width="0dp" android:layout_marginBottom="24dp"
+            app:layout_constraintBottom_toTopOf="@+id/emailText"/>
+    <Button
+            android:text="Log Out"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/logoutButton" app:layout_constraintStart_toStartOf="@+id/bottomNav"
+            app:layout_constraintEnd_toEndOf="@+id/bottomNav" android:layout_marginEnd="24dp"
+            android:layout_marginRight="24dp" android:layout_marginBottom="24dp"
+            app:layout_constraintBottom_toTopOf="@+id/bottomNav" android:layout_marginLeft="24dp"
+            android:layout_marginStart="24dp" android:background="@drawable/rounded_button"/>
+    <android.support.design.widget.BottomNavigationView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/bottomNav"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:menu="@menu/bottom_nav_menu"
+            app:itemIconTint="@android:color/white"
+            app:itemTextColor="@android:color/white"
+            android:background="@android:color/black"/>
+    <EditText
+            android:layout_width="120dp"
+            android:layout_height="50dp"
+            android:inputType="textPersonName"
+            android:text="First Name:"
+            android:ems="10"
+            android:id="@+id/editText"
+            android:textColor="@android:color/white" android:textStyle="bold" android:textAllCaps="false"
+            android:textSize="18sp" android:layout_marginBottom="24dp"
+            app:layout_constraintBottom_toTopOf="@+id/editText3" android:layout_marginStart="8dp"
+            app:layout_constraintStart_toStartOf="@+id/logoutButton" android:layout_marginLeft="8dp"/>
+    <EditText
+            android:layout_width="120dp"
+            android:layout_height="50dp"
+            android:inputType="textPersonName"
+            android:text="Last Name:"
+            android:ems="10"
+            android:id="@+id/editText3"
+            android:textColor="@android:color/white" android:textStyle="bold" android:textAllCaps="false"
+            android:textSize="18sp" android:layout_marginBottom="24dp"
+            app:layout_constraintBottom_toTopOf="@+id/editText4" android:layout_marginStart="8dp"
+            app:layout_constraintStart_toStartOf="@+id/logoutButton" android:layout_marginLeft="8dp"/>
+    <EditText
+            android:layout_width="120dp"
+            android:layout_height="50dp"
+            android:inputType="textPersonName"
+            android:text="E-mail:"
+            android:ems="10"
+            android:id="@+id/editText4"
+            android:textColor="@android:color/white" android:textStyle="bold" android:textAllCaps="false"
+            android:textSize="18sp" android:layout_marginBottom="90dp"
+            app:layout_constraintBottom_toTopOf="@+id/logoutButton" android:layout_marginStart="8dp"
+            app:layout_constraintStart_toStartOf="@+id/logoutButton" android:layout_marginLeft="8dp"/>
+    <TextView
+            android:text="First Name"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:id="@+id/firstnameText" app:layout_constraintStart_toEndOf="@+id/editText"
+            android:paddingLeft="16dp"
+            android:paddingTop="12dp"
+            android:background="@drawable/rounded_text" android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@+id/lastnameText" android:layout_marginBottom="24dp"
+            app:layout_constraintBottom_toTopOf="@+id/lastnameText"/>
 </android.support.constraint.ConstraintLayout>
