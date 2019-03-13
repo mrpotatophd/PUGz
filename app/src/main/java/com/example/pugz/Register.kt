@@ -6,38 +6,33 @@ import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.activity_login.*
+import com.google.firebase.database.FirebaseDatabase
+import kotlinx.android.synthetic.main.activity_register.*
 
-class Login : AppCompatActivity() {
+class Register : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        if(FirebaseAuth.getInstance().currentUser != null) {
-            val intent = Intent(this, Profile :: class.java)
-            startActivity(intent)
-        }
-
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        setContentView(R.layout.activity_register)
 
         bottomNav.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
-        signUpBtn.setOnClickListener {
-            val intent = Intent(this, Register :: class.java)
+        loginBtn.setOnClickListener {
+            val intent = Intent(this, Login :: class.java)
             startActivity(intent)
         }
 
-        loginBtn.setOnClickListener {
+        registerBtn.setOnClickListener {
             val email = emailText.text.toString()
             val password = passwordText.text.toString()
 
-            FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
+            FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener {
                     if (!it.isSuccessful) return@addOnCompleteListener
 
                     // else if successful
-                    Log.d("Login", "Successfully login user with uid: ${it.result.user.uid}")
-                    val intent = Intent(this, Portal :: class.java)
-                    startActivity(intent)
+                    Log.d("Register", "Successfully created user with uid: ${it.result.user.uid}")
+                    saveUserToDatabase()
                 }
         }
     }
@@ -64,4 +59,23 @@ class Login : AppCompatActivity() {
         false
 
     }
+
+    private fun saveUserToDatabase() {
+        val uid = FirebaseAuth.getInstance().uid ?: ""
+        val ref = FirebaseDatabase.getInstance().reference
+
+        val user = User(uid, firstNameText.text.toString(), lastNameText.text.toString(), emailText.text.toString())
+
+        ref.child("users").child(uid).setValue(user)
+            .addOnSuccessListener {
+                Log.d("Register", "User saved to database")
+                val intent = Intent(this, Login :: class.java)
+                startActivity(intent)
+            }
+            .addOnFailureListener {
+                Log.d("Register", "Failed to save data to database $uid")
+            }
+    }
+
+    class User(val uid: String, val fName: String, val lName:String, val email:String)
 }
