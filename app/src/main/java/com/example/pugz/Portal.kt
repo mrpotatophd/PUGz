@@ -13,6 +13,11 @@ class Portal : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_portal)
 
+        AddGame.setOnClickListener {
+            val intent = Intent(this, AddGames :: class.java)
+            startActivity(intent)
+        }
+
         bottomNav.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
     }
 

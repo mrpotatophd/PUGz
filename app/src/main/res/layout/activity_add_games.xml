@@ -5,6 +5,172 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".AddGames">
+        tools:context=".AddGames" android:background="@drawable/background">
 
+    <Button
+            android:text="Add Game"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_button"
+            android:id="@+id/addGameBtn"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="32dp" android:layout_marginRight="32dp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="32dp"
+            android:layout_marginStart="32dp" android:layout_marginBottom="24dp"
+            app:layout_constraintBottom_toTopOf="@+id/bottomNav"/>
+    <EditText
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:ems="10"
+            android:id="@+id/buildingText"
+            android:background="@drawable/rounded_text"
+            android:hint="Building" android:paddingLeft="16dp"
+            android:inputType="text"
+            app:layout_constraintBottom_toTopOf="@+id/roomText" android:layout_marginBottom="8dp"
+            app:layout_constraintStart_toStartOf="@+id/locationSpinner"
+            app:layout_constraintEnd_toEndOf="@+id/locationSpinner"/>
+    <EditText
+            android:layout_width="113dp"
+            android:layout_height="50dp"
+            android:ems="10"
+            android:id="@+id/yearText"
+            android:background="@drawable/rounded_text"
+            android:hint="Year" android:paddingLeft="16dp"
+            app:layout_constraintStart_toEndOf="@+id/monthSpinner"
+            android:layout_marginStart="8dp" android:layout_marginLeft="8dp" android:inputType="number"
+            android:layout_marginBottom="8dp" app:layout_constraintBottom_toTopOf="@+id/ampmSpinner"
+            android:layout_marginEnd="8dp" app:layout_constraintEnd_toEndOf="@+id/roomText"
+            android:layout_marginRight="8dp"/>
+    <EditText
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:ems="10"
+            android:id="@+id/roomText"
+            android:background="@drawable/rounded_text"
+            android:hint="Room" android:paddingLeft="16dp"
+            android:inputType="text" android:layout_marginBottom="24dp"
+            app:layout_constraintBottom_toTopOf="@+id/monthSpinner"
+            app:layout_constraintStart_toStartOf="@+id/buildingText"
+            app:layout_constraintEnd_toEndOf="@+id/buildingText"/>
+    <Spinner
+            android:id="@+id/daySpinner"
+            android:layout_width="70dp"
+            android:layout_height="50dp"
+            android:layout_margin="10dp"
+            android:paddingLeft="16dp"
+            android:entries="@array/day_list"
+            android:background="@drawable/rounded_text"
+            app:layout_constraintStart_toEndOf="@+id/textView4"
+            android:layout_marginStart="4dp" android:layout_marginLeft="4dp" android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/hourSpinner"/>
+    <Spinner
+            android:id="@+id/monthSpinner"
+            android:layout_width="120dp"
+            android:layout_height="50dp"
+            android:layout_margin="10dp"
+            android:paddingLeft="16dp"
+            android:entries="@array/months_list"
+            android:background="@drawable/rounded_text"
+            app:layout_constraintStart_toEndOf="@+id/daySpinner" android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginBottom="16dp" app:layout_constraintBottom_toTopOf="@+id/minuteSpinner"/>
+    <Spinner
+            android:id="@+id/ampmSpinner"
+            android:layout_width="70dp"
+            android:layout_height="50dp"
+            android:layout_margin="10dp"
+            android:paddingLeft="16dp"
+            android:entries="@array/ampm_list"
+            android:background="@drawable/rounded_text"
+            app:layout_constraintStart_toEndOf="@+id/minuteSpinner"
+            android:layout_marginLeft="4dp" android:layout_marginStart="4dp" android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/addGameBtn"/>
+    <Spinner
+            android:id="@+id/hourSpinner"
+            android:layout_width="70dp"
+            android:layout_height="50dp"
+            android:layout_margin="10dp"
+            android:paddingLeft="16dp"
+            android:entries="@array/hour_list"
+            android:background="@drawable/rounded_text"
+            app:layout_constraintStart_toEndOf="@+id/textView3" android:layout_marginStart="12dp"
+            android:layout_marginLeft="12dp" android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/addGameBtn"/>
+    <Spinner
+            android:id="@+id/minuteSpinner"
+            android:layout_width="70dp"
+            android:layout_height="50dp"
+            android:layout_margin="10dp"
+            android:paddingLeft="16dp"
+            android:entries="@array/minute_list"
+            android:background="@drawable/rounded_text"
+            app:layout_constraintStart_toEndOf="@+id/hourSpinner" android:layout_marginStart="12dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginBottom="8dp" app:layout_constraintBottom_toTopOf="@+id/addGameBtn"/>
+    <android.support.design.widget.BottomNavigationView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/bottomNav"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:menu="@menu/bottom_nav_menu"
+            app:itemIconTint="@android:color/white"
+            app:itemTextColor="@android:color/white"
+            android:background="@android:color/black"/>
+    <EditText
+            android:layout_width="118dp"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:text="Add Game"
+            android:ems="10"
+            android:id="@+id/editText5"
+            android:textSize="24sp"
+            android:textColor="@android:color/white" android:textStyle="bold" android:lineSpacingExtra="8sp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="146dp"
+            android:layout_marginStart="146dp" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="147dp" android:layout_marginRight="147dp"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintBottom_toTopOf="@+id/sportSpinner" android:layout_marginBottom="8dp"/>
+    <Spinner
+            android:id="@+id/sportSpinner"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_margin="10dp"
+            android:paddingLeft="16dp"
+            android:entries="@array/sports_list"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp" android:background="@drawable/rounded_text"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintBottom_toTopOf="@+id/locationSpinner"/>
+    <Spinner
+            android:id="@+id/locationSpinner"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_margin="10dp"
+            android:paddingLeft="16dp"
+            android:entries="@array/locations_list"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp" android:background="@drawable/rounded_text"
+            app:layout_constraintHorizontal_bias="0.0"
+            android:layout_marginBottom="20dp" app:layout_constraintBottom_toTopOf="@+id/buildingText"/>
+    <TextView
+            android:text="Time:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView3" android:textSize="18sp"
+            android:textColor="@android:color/white" android:textStyle="italic"
+            android:layout_marginStart="20dp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="20dp"
+            android:layout_marginBottom="24dp" app:layout_constraintBottom_toTopOf="@+id/addGameBtn"/>
+    <TextView
+            android:text="Date:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView4" android:textSize="18sp"
+            android:textColor="@android:color/white" android:textStyle="italic"
+            android:layout_marginStart="24dp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="24dp"
+            android:layout_marginBottom="28dp" app:layout_constraintBottom_toTopOf="@+id/hourSpinner"/>
 </android.support.constraint.ConstraintLayout>
