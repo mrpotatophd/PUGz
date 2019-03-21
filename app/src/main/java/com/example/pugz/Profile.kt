@@ -23,6 +23,22 @@ class Profile : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
 
+        val ref = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().currentUser?.uid.toString())
+
+        val postListener = object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                emailText.text = p0.child("email").value.toString()
+                firstnameText.text = p0.child("fname").value.toString()
+                lastnameText.text = p0.child("lname").value.toString()
+            }
+
+        }
+        ref.addListenerForSingleValueEvent(postListener)
+
         bottomNav.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
         logoutButton.setOnClickListener {
