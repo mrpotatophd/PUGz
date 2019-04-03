@@ -30,83 +30,42 @@
             app:layout_constraintStart_toStartOf="@+id/locationSpinner"
             app:layout_constraintEnd_toEndOf="@+id/locationSpinner"/>
     <EditText
-            android:layout_width="113dp"
-            android:layout_height="50dp"
-            android:ems="10"
-            android:id="@+id/yearText"
-            android:background="@drawable/rounded_text"
-            android:hint="Year" android:paddingLeft="16dp"
-            app:layout_constraintStart_toEndOf="@+id/monthSpinner"
-            android:layout_marginStart="8dp" android:layout_marginLeft="8dp" android:inputType="number"
-            android:layout_marginBottom="8dp" app:layout_constraintBottom_toTopOf="@+id/ampmSpinner"
-            android:layout_marginEnd="8dp" app:layout_constraintEnd_toEndOf="@+id/roomText"
-            android:layout_marginRight="8dp"/>
-    <EditText
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:ems="10"
             android:id="@+id/roomText"
             android:background="@drawable/rounded_text"
             android:hint="Room" android:paddingLeft="16dp"
-            android:inputType="text" android:layout_marginBottom="24dp"
-            app:layout_constraintBottom_toTopOf="@+id/monthSpinner"
+            android:inputType="text"
             app:layout_constraintStart_toStartOf="@+id/buildingText"
-            app:layout_constraintEnd_toEndOf="@+id/buildingText"/>
-    <Spinner
-            android:id="@+id/daySpinner"
-            android:layout_width="70dp"
+            app:layout_constraintEnd_toEndOf="@+id/buildingText" android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/textView4"/>
+    <EditText
+            android:layout_width="315dp"
             android:layout_height="50dp"
-            android:layout_margin="10dp"
-            android:paddingLeft="16dp"
-            android:entries="@array/day_list"
+            android:ems="10"
+            android:id="@+id/dateTextView"
             android:background="@drawable/rounded_text"
+            android:paddingLeft="16dp"
+            android:inputType="text"
             app:layout_constraintStart_toEndOf="@+id/textView4"
-            android:layout_marginStart="4dp" android:layout_marginLeft="4dp" android:layout_marginBottom="16dp"
-            app:layout_constraintBottom_toTopOf="@+id/hourSpinner"/>
-    <Spinner
-            android:id="@+id/monthSpinner"
-            android:layout_width="120dp"
+            android:layout_marginLeft="16dp" android:layout_marginStart="16dp"
+            app:layout_constraintEnd_toEndOf="@+id/roomText"
+            android:focusable="false" android:layout_marginBottom="32dp" android:clickable="true"
+            app:layout_constraintBottom_toTopOf="@+id/textView3"/>
+    <EditText
+            android:layout_width="315dp"
             android:layout_height="50dp"
-            android:layout_margin="10dp"
-            android:paddingLeft="16dp"
-            android:entries="@array/months_list"
+            android:ems="10"
+            android:id="@+id/timeTextView"
             android:background="@drawable/rounded_text"
-            app:layout_constraintStart_toEndOf="@+id/daySpinner" android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginBottom="16dp" app:layout_constraintBottom_toTopOf="@+id/minuteSpinner"/>
-    <Spinner
-            android:id="@+id/ampmSpinner"
-            android:layout_width="70dp"
-            android:layout_height="50dp"
-            android:layout_margin="10dp"
             android:paddingLeft="16dp"
-            android:entries="@array/ampm_list"
-            android:background="@drawable/rounded_text"
-            app:layout_constraintStart_toEndOf="@+id/minuteSpinner"
-            android:layout_marginLeft="4dp" android:layout_marginStart="4dp" android:layout_marginBottom="8dp"
+            android:inputType="text"
+            android:focusable="false" android:clickable="true"
+            app:layout_constraintEnd_toEndOf="@+id/dateTextView"
+            app:layout_constraintStart_toEndOf="@+id/textView3" android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp" android:layout_marginBottom="16dp"
             app:layout_constraintBottom_toTopOf="@+id/addGameBtn"/>
-    <Spinner
-            android:id="@+id/hourSpinner"
-            android:layout_width="70dp"
-            android:layout_height="50dp"
-            android:layout_margin="10dp"
-            android:paddingLeft="16dp"
-            android:entries="@array/hour_list"
-            android:background="@drawable/rounded_text"
-            app:layout_constraintStart_toEndOf="@+id/textView3" android:layout_marginStart="12dp"
-            android:layout_marginLeft="12dp" android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/addGameBtn"/>
-    <Spinner
-            android:id="@+id/minuteSpinner"
-            android:layout_width="70dp"
-            android:layout_height="50dp"
-            android:layout_margin="10dp"
-            android:paddingLeft="16dp"
-            android:entries="@array/minute_list"
-            android:background="@drawable/rounded_text"
-            app:layout_constraintStart_toEndOf="@+id/hourSpinner" android:layout_marginStart="12dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginBottom="8dp" app:layout_constraintBottom_toTopOf="@+id/addGameBtn"/>
     <android.support.design.widget.BottomNavigationView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -172,5 +131,5 @@
             android:textColor="@android:color/white" android:textStyle="italic"
             android:layout_marginStart="24dp"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="24dp"
-            android:layout_marginBottom="28dp" app:layout_constraintBottom_toTopOf="@+id/hourSpinner"/>
+            android:layout_marginBottom="32dp" app:layout_constraintBottom_toTopOf="@+id/timeTextView"/>
 </android.support.constraint.ConstraintLayout>
