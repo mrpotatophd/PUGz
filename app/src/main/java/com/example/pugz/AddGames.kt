@@ -59,6 +59,11 @@ class AddGames : AppCompatActivity() {
         }
 
         addGameBtn.setOnClickListener {
+            if(FirebaseAuth.getInstance().currentUser == null) {
+                val intent = Intent(this, Login :: class.java)
+                startActivity(intent)
+            }
+
             var sportOK = false
             var locationOK = false
             var timeOK = false
@@ -166,18 +171,32 @@ class AddGames : AppCompatActivity() {
         val timeData = this.timeTextView.text.toString()
         val gameUid = uid + "_" + dateData + "_" + timeData
 
-        val game = Game(gameUid, uid, this.sportSpinner.selectedItem.toString(), this.locationSpinner.selectedItem.toString(), this.buildingText.text.toString(), this.dateTextView.text.toString(), this.timeTextView.text.toString())
+        val game = Game(gameUid, uid, this.sportSpinner.selectedItem.toString(), this.locationSpinner.selectedItem.toString(), this.buildingText.text.toString(), this.dateTextView.text.toString(), this.timeTextView.text.toString(), this.roomText.text.toString())
 
         ref.child("games").child(gameUid).setValue(game)
             .addOnSuccessListener {
-                Log.d("Register", "Game saved to database")
-                val intent = Intent(this, Portal :: class.java)
-                startActivity(intent)
+                Log.d("AddGame", "Game saved to database")
+                ref.child("games").child(gameUid).child("players").setValue(uid)
+                    .addOnSuccessListener {
+                        Log.d("AddPlayers", "Player saved to game database")
+                        ref.child("games").child(gameUid).child("num_players").setValue("1")
+                            .addOnSuccessListener {
+                                Log.d("AddPlayers", "Number of Players saved to game database")
+                                val intent = Intent(this, Portal :: class.java)
+                                startActivity(intent)
+                            }
+                            .addOnFailureListener {
+                                Log.d("AddPlayers", "Failed to save data to database $uid")
+                            }
+                    }
+                    .addOnFailureListener {
+                        Log.d("AddPlayers", "Failed to save data to database $uid")
+                    }
             }
             .addOnFailureListener {
                 Log.d("Register", "Failed to save data to database $gameUid")
             }
     }
 
-    class Game(val gameUid: String, val userUid:String, val sport: String, val location:String, val building:String, val date: String, val time:String)
+    class Game(val gameUid: String, val userUid:String, val sport: String, val location:String, val building:String, val date: String, val time:String, val room:String)
 }

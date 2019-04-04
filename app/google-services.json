@@ -21,10 +21,6 @@
             "package_name": "com.example.pugz",
             "certificate_hash": "ead7f7e47f9a19d4ceb7a34c36b5ce9d900da90e"
           }
-        },
-        {
-          "client_id": "861237784125-bkkopnn0hv8dkpb8obp4rlqefcsuagee.apps.googleusercontent.com",
-          "client_type": 3
         }
       ],
       "api_key": [
@@ -33,20 +29,13 @@
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 2,
           "other_platform_oauth_client": [
             {
               "client_id": "861237784125-bkkopnn0hv8dkpb8obp4rlqefcsuagee.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
-        },
-        "ads_service": {
-          "status": 2
         }
       }
     }
