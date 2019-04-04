@@ -15,21 +15,12 @@
             android:text="Game Search"
             android:ems="10"
             android:id="@+id/editText2"
-            android:textColor="@android:color/white" android:textStyle="bold" android:textAllCaps="false"
+            android:textColor="@color/colorAccent" android:textAllCaps="false"
             android:lineSpacingExtra="8sp" android:textSize="24sp"
             android:layout_marginBottom="4dp" app:layout_constraintBottom_toTopOf="@+id/items_list"
             android:layout_marginEnd="8dp" app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginRight="8dp" android:layout_marginStart="8dp"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"/>
-    <Button
-            android:text="Add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/AddGame"
-            android:layout_marginBottom="16dp"
-            app:layout_constraintBottom_toTopOf="@+id/items_list"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp" app:layout_constraintStart_toEndOf="@+id/editText2"
-            android:layout_marginLeft="8dp" android:layout_marginStart="8dp"/>
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp" android:textStyle="bold"/>
     <ListView
             android:id="@+id/items_list"
             android:layout_width="405dp"
@@ -49,5 +40,16 @@
             app:itemIconTint="@android:color/white"
             app:itemTextColor="@android:color/white"
             android:background="@android:color/black"/>
+    <Button
+            android:text="Create"
+            android:layout_width="91dp"
+            android:layout_height="43dp"
+            android:id="@+id/button4"
+            android:background="@drawable/rounded_background"
+            android:textColor="@color/colorPrimaryDark" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="19dp" android:layout_marginRight="19dp"
+            app:layout_constraintStart_toEndOf="@+id/editText2" android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
+            app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="150dp"/>
 
 </android.support.constraint.ConstraintLayout>

@@ -101,10 +101,10 @@
                             android:background="@android:color/black"/>
                 </LinearLayout>
                 <Button
-                        android:text="J     O    I    N"
+                        android:text="Join"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent" android:id="@+id/button5" android:layout_weight="1"
-                />
+                        android:background="@drawable/white_shadow"/>
             </LinearLayout>
         </android.support.v7.widget.CardView>
     </LinearLayout>

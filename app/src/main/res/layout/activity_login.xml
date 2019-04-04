@@ -37,18 +37,18 @@
             android:ems="10"
             android:id="@+id/passwordText"
             app:layout_constraintEnd_toEndOf="@+id/emailText" app:layout_constraintStart_toStartOf="@+id/emailText"
-            android:background="@drawable/rounded_text" android:hint="Password" android:layout_marginBottom="32dp"
+            android:background="@drawable/rounded_text" android:hint="Password" android:layout_marginBottom="48dp"
             app:layout_constraintBottom_toTopOf="@+id/loginBtn"
             android:paddingLeft="16dp"/>
     <Button
             android:text="Login"
             android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:layout_height="51dp"
             android:id="@+id/loginBtn"
-            android:background="@drawable/rounded_button"
+            android:background="@drawable/rounded_background"
             app:layout_constraintStart_toStartOf="@+id/passwordText"
-            app:layout_constraintEnd_toEndOf="@+id/passwordText" android:layout_marginBottom="24dp"
-            app:layout_constraintBottom_toTopOf="@+id/signUpBtn"/>
+            app:layout_constraintEnd_toEndOf="@+id/passwordText" android:layout_marginBottom="32dp"
+            app:layout_constraintBottom_toTopOf="@+id/signUpBtn" android:textSize="14sp" android:typeface="normal"/>
     <TextView
             android:text="Not a Member? Sign Up Here..."
             android:layout_width="wrap_content"

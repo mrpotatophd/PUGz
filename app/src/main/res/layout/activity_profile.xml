@@ -37,7 +37,7 @@
             app:layout_constraintEnd_toEndOf="@+id/bottomNav" android:layout_marginEnd="24dp"
             android:layout_marginRight="24dp" android:layout_marginBottom="24dp"
             app:layout_constraintBottom_toTopOf="@+id/bottomNav" android:layout_marginLeft="24dp"
-            android:layout_marginStart="24dp" android:background="@drawable/rounded_button"/>
+            android:layout_marginStart="24dp" android:background="@drawable/rounded_maroon"/>
     <android.support.design.widget.BottomNavigationView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

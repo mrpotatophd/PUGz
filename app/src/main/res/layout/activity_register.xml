@@ -66,9 +66,9 @@
             android:text="Register"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/rounded_button"
+            android:background="@drawable/rounded_background"
             android:id="@+id/registerBtn" app:layout_constraintEnd_toEndOf="@+id/passwordText"
-            app:layout_constraintStart_toStartOf="@+id/passwordText" android:layout_marginBottom="16dp"
+            app:layout_constraintStart_toStartOf="@+id/passwordText" android:layout_marginBottom="48dp"
             app:layout_constraintBottom_toTopOf="@+id/loginBtn"/>
     <TextView
             android:text="Already have an account? Login Here..."
@@ -76,7 +76,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/loginBtn"
             app:layout_constraintEnd_toEndOf="@+id/registerBtn"
-            app:layout_constraintStart_toStartOf="@+id/registerBtn" android:layout_marginBottom="140dp"
+            app:layout_constraintStart_toStartOf="@+id/registerBtn" android:layout_marginBottom="100dp"
             app:layout_constraintBottom_toBottomOf="parent" android:textSize="18sp" android:textStyle="bold"
             android:textColor="@color/design_default_color_primary"/>
 </android.support.constraint.ConstraintLayout>

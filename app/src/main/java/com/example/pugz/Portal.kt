@@ -10,10 +10,8 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.widget.BaseAdapter
-import android.widget.Button
 import android.widget.TextView
 import android.widget.ListView
-import com.google.firebase.FirebaseApp
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_portal.*
 import java.util.*
@@ -93,7 +91,7 @@ class Portal : AppCompatActivity() {
         listViewItems!!.setAdapter(adapter)
         mDatabase.orderByKey().addListenerForSingleValueEvent(itemListener)
 
-        AddGame.setOnClickListener {
+        CreateGame.setOnClickListener {
             val intent = Intent(this, AddGames :: class.java)
             startActivity(intent)
         }

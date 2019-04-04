@@ -3,14 +3,12 @@ package com.example.pugz
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
-import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.util.Log
 import android.widget.DatePicker
 import android.widget.TextView
-import android.widget.TimePicker
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_add_games.*
@@ -58,7 +56,7 @@ class AddGames : AppCompatActivity() {
             TimePickerDialog(this, timeSetListener, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), true).show()
         }
 
-        addGameBtn.setOnClickListener {
+        CreateGameBtn.setOnClickListener {
             if(FirebaseAuth.getInstance().currentUser == null) {
                 val intent = Intent(this, Login :: class.java)
                 startActivity(intent)
