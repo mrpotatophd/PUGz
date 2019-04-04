@@ -64,7 +64,7 @@ class Register : AppCompatActivity() {
         val uid = FirebaseAuth.getInstance().uid ?: ""
         val ref = FirebaseDatabase.getInstance().reference
 
-        val user = User(uid, firstNameText.text.toString(), lastNameText.text.toString(), emailText.text.toString())
+        val user = User(uid, firstNameText.text.toString(), lastNameText.text.toString(), emailText.text.toString(), 0)
 
         ref.child("users").child(uid).setValue(user)
             .addOnSuccessListener {
@@ -77,5 +77,5 @@ class Register : AppCompatActivity() {
             }
     }
 
-    class User(val uid: String, val fName: String, val lName:String, val email:String)
+    class User(val uid: String, val fName: String, val lName:String, val email:String, val num_games:Int)
 }
