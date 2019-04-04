@@ -10,7 +10,10 @@ import android.util.Log
 import android.widget.DatePicker
 import android.widget.TextView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_add_games.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -61,71 +64,64 @@ class AddGames : AppCompatActivity() {
                 val intent = Intent(this, Login :: class.java)
                 startActivity(intent)
             }
-
-            var sportOK = false
-            var locationOK = false
-            var timeOK = false
-            var dateOK = false
-            var buildingOK = false
-            var roomOK = false
-
-            if(sportSpinner.selectedItemPosition != 0)
-            {
-                sportOK = true;
-                sportSpinner.setBackgroundResource(R.drawable.rounded_text)
-            }
-            else
-            {
-                sportSpinner.setBackgroundResource(R.drawable.rounded_text_red)
-            }
-
-            if(locationSpinner.selectedItemPosition != 0) {
-                locationOK = true;
-                locationSpinner.setBackgroundResource(R.drawable.rounded_text)
-            }
             else {
-                locationSpinner.setBackgroundResource(R.drawable.rounded_text_red)
-            }
 
-            //timeTextView
-            if(textview_time!!.text != "--/--/----") {
-                timeOK = true
-                textview_time!!.setBackgroundResource(R.drawable.rounded_text)
-            }
-            else {
-                textview_time!!.setBackgroundResource(R.drawable.rounded_text_red)
-            }
+                var sportOK = false
+                var locationOK = false
+                var timeOK = false
+                var dateOK = false
+                var buildingOK = false
+                var roomOK = false
 
-            //dateTextView
-            if (textview_date!!.text != "--:--") {
-                dateOK = true
-                textview_date!!.setBackgroundResource(R.drawable.rounded_text)
-            }
-            else {
-                textview_date!!.setBackgroundResource(R.drawable.rounded_text_red)
-            }
+                if (sportSpinner.selectedItemPosition != 0) {
+                    sportOK = true;
+                    sportSpinner.setBackgroundResource(R.drawable.rounded_text)
+                } else {
+                    sportSpinner.setBackgroundResource(R.drawable.rounded_text_red)
+                }
 
-            //buildingTextView
-            if(this.buildingText.text.toString() != "") {
-                buildingOK = true
-                this.buildingText.setBackgroundResource(R.drawable.rounded_text)
-            }
-            else {
-                this.buildingText.setBackgroundResource(R.drawable.rounded_text_red)
-            }
+                if (locationSpinner.selectedItemPosition != 0) {
+                    locationOK = true;
+                    locationSpinner.setBackgroundResource(R.drawable.rounded_text)
+                } else {
+                    locationSpinner.setBackgroundResource(R.drawable.rounded_text_red)
+                }
 
-            //roomTextView
-            if(this.roomText.text.toString() != "") {
-                roomOK = true
-                this.roomText.setBackgroundResource(R.drawable.rounded_text)
-            }
-            else {
-                this.roomText.setBackgroundResource(R.drawable.rounded_text_red)
-            }
+                //timeTextView
+                if (textview_time!!.text != "--/--/----") {
+                    timeOK = true
+                    textview_time!!.setBackgroundResource(R.drawable.rounded_text)
+                } else {
+                    textview_time!!.setBackgroundResource(R.drawable.rounded_text_red)
+                }
 
-            if(timeOK && dateOK && buildingOK && roomOK)
-            {
-                addGameToDatabase();
+                //dateTextView
+                if (textview_date!!.text != "--:--") {
+                    dateOK = true
+                    textview_date!!.setBackgroundResource(R.drawable.rounded_text)
+                } else {
+                    textview_date!!.setBackgroundResource(R.drawable.rounded_text_red)
+                }
+
+                //buildingTextView
+                if (this.buildingText.text.toString() != "") {
+                    buildingOK = true
+                    this.buildingText.setBackgroundResource(R.drawable.rounded_text)
+                } else {
+                    this.buildingText.setBackgroundResource(R.drawable.rounded_text_red)
+                }
+
+                //roomTextView
+                if (this.roomText.text.toString() != "") {
+                    roomOK = true
+                    this.roomText.setBackgroundResource(R.drawable.rounded_text)
+                } else {
+                    this.roomText.setBackgroundResource(R.drawable.rounded_text_red)
+                }
+
+                if (timeOK && dateOK && buildingOK && roomOK) {
+                    addGameToDatabase();
+                }
             }
         }
 
@@ -174,12 +170,16 @@ class AddGames : AppCompatActivity() {
         ref.child("games").child(gameUid).setValue(game)
             .addOnSuccessListener {
                 Log.d("AddGame", "Game saved to database")
-                ref.child("games").child(gameUid).child("players").setValue(uid)
+                ref.child("games").child(gameUid).child("players").child("player1").setValue(uid)
                     .addOnSuccessListener {
                         Log.d("AddPlayers", "Player saved to game database")
                         ref.child("games").child(gameUid).child("num_players").setValue("1")
                             .addOnSuccessListener {
                                 Log.d("AddPlayers", "Number of Players saved to game database")
+
+                                refToUser.child("joined_games").child("game" + (num_games!! + 1)).setValue(gameUid)
+                                refToUser.child("num_games").setValue(num_games!! + 1)
+
                                 val intent = Intent(this, Portal :: class.java)
                                 startActivity(intent)
                             }

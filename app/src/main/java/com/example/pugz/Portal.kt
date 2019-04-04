@@ -10,19 +10,18 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.widget.BaseAdapter
+import android.widget.Button
 import android.widget.TextView
 import android.widget.ListView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_portal.*
 import java.util.*
 
-object Constants {
-    @JvmStatic val FIREBASE_ITEM: String = "games"
-}
-
 class GameItemAdapter(context: Context, gameList: MutableList<Portal.GameItem>) : BaseAdapter() {
     private val mInflater: LayoutInflater = LayoutInflater.from(context)
     private var gameList = gameList
+    private var rowListener: ItemRowListener = context as ItemRowListener
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val gameUid: String = gameList.get(position).gameUid as String
         val sport: String = gameList.get(position).sport as String
@@ -49,6 +48,9 @@ class GameItemAdapter(context: Context, gameList: MutableList<Portal.GameItem>) 
         vh.location.text = location
         vh.building.text = building
         vh.room.text = room
+        vh.joinBtn.setOnClickListener {
+            rowListener.joinGame(gameUid, num_players)
+        }
 
         return view
     }
@@ -69,15 +71,40 @@ class GameItemAdapter(context: Context, gameList: MutableList<Portal.GameItem>) 
         val location: TextView = row!!.findViewById<TextView>(R.id.locationPortalView) as TextView
         val building: TextView = row!!.findViewById<TextView>(R.id.buildingPortalView) as TextView
         val room: TextView = row!!.findViewById<TextView>(R.id.roomPortalView) as TextView
+        val joinBtn: Button = row!!.findViewById<Button>(R.id.joinBtn) as Button
     }
+}
+
+interface ItemRowListener {
+    fun joinGame(itemObjectId: String, num_players: Int)
 }
 
 var gameList: MutableList<Portal.GameItem>? = null
 lateinit var  adapter: GameItemAdapter
 private var listViewItems: ListView? = null
 lateinit var mDatabase: DatabaseReference
+var num_games: Int? = null
+lateinit var refToUser: DatabaseReference
 
-class Portal : AppCompatActivity() {
+class Portal : AppCompatActivity(), ItemRowListener {
+
+    override fun joinGame(itemObjectId: String, num_players: Int) {
+        //adding uid to the game database
+        val itemReference = FirebaseDatabase.getInstance().getReference("games").child(itemObjectId)
+
+        val nextRef = itemReference.child("players").child("player" + (num_players + 1))
+        val uid = FirebaseAuth.getInstance().currentUser!!.uid.toString()
+
+        nextRef.setValue(uid)
+        itemReference.child("num_players").setValue(num_players + 1)
+
+        //adding gameUid to user database
+        refToUser.child("joined_games").child("game" + (num_games!! + 1)).setValue(itemObjectId)
+        refToUser.child("num_games").setValue(num_games!! + 1)
+
+        val intent = Intent(this, Portal :: class.java)
+        startActivity(intent)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,12 +118,26 @@ class Portal : AppCompatActivity() {
         listViewItems!!.setAdapter(adapter)
         mDatabase.orderByKey().addListenerForSingleValueEvent(itemListener)
 
+        refToUser = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().currentUser!!.uid.toString())
+        refToUser.orderByKey().addListenerForSingleValueEvent(userListener)
+
         CreateGame.setOnClickListener {
             val intent = Intent(this, AddGames :: class.java)
             startActivity(intent)
         }
 
         bottomNav.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+    }
+
+    val userListener: ValueEventListener = object : ValueEventListener {
+        override fun onCancelled(p0: DatabaseError) {
+
+        }
+
+        override fun onDataChange(p0: DataSnapshot) {
+            num_games = p0.child("num_games").value.toString().toInt()
+        }
+
     }
 
     var itemListener: ValueEventListener = object : ValueEventListener {
