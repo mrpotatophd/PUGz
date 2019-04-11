@@ -26,23 +26,54 @@ class Register : AppCompatActivity() {
             val email = emailText.text.toString()
             val password = passwordText.text.toString()
 
-            FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener {
-                    if (!it.isSuccessful) return@addOnCompleteListener
+            if(email != "" && password != "" && firstNameText.text.toString() != "" && lastNameText.text.toString() != "") {
+                FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener {
+                        if (!it.isSuccessful) return@addOnCompleteListener
 
-                    // else if successful
-                    Log.d("Register", "Successfully created user with uid: ${it.result.user.uid}")
-                    saveUserToDatabase()
+                        // else if successful
+                        Log.d("Register", "Successfully created user with uid: ${it.result.user.uid}")
+                        saveUserToDatabase()
+                    }
+            }
+            else
+            {
+                if(email == "")
+                {
+                    emailText.setBackgroundResource(R.drawable.rounded_text_red)
+                } else {
+                    emailText.setBackgroundResource(R.drawable.rounded_text)
                 }
+
+                if(password == "")
+                {
+                    passwordText.setBackgroundResource(R.drawable.rounded_text_red)
+                } else {
+                    passwordText.setBackgroundResource(R.drawable.rounded_text)
+                }
+
+                if(firstNameText.text.toString() == "")
+                {
+                    firstNameText.setBackgroundResource(R.drawable.rounded_text_red)
+                } else {
+                    firstNameText.setBackgroundResource(R.drawable.rounded_text)
+                }
+
+                if(lastNameText.text.toString() == "") {
+                    lastNameText.setBackgroundResource(R.drawable.rounded_text_red)
+                } else {
+                    lastNameText.setBackgroundResource(R.drawable.rounded_text)
+                }
+            }
         }
     }
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
-            R.id.more -> {
+            /*R.id.more -> {
                 println("more pressed")
                 return@OnNavigationItemSelectedListener true
-            }
+            }*/
             R.id.home -> {
                 println("home pressed")
                 val intent = Intent(this, Portal :: class.java)

@@ -55,7 +55,7 @@
                 </LinearLayout>
                 <LinearLayout
                         android:orientation="vertical"
-                        android:layout_width="236dp"
+                        android:layout_width="225dp"
                         android:layout_height="match_parent">
                     <TextView
                             android:text="Basketball"

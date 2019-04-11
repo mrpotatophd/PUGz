@@ -17,8 +17,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_portal.*
 import java.util.*
+import kotlin.concurrent.thread
 
-class GameItemAdapter(context: Context, gameList: MutableList<Portal.GameItem>) : BaseAdapter() {
+class GameItemAdapter(context: Context, gameList: MutableList<Portal.GameItem>, joinedGamesUid: MutableList<String>) : BaseAdapter() {
     private val mInflater: LayoutInflater = LayoutInflater.from(context)
     private var gameList = gameList
     private var rowListener: ItemRowListener = context as ItemRowListener
@@ -49,7 +50,25 @@ class GameItemAdapter(context: Context, gameList: MutableList<Portal.GameItem>) 
         vh.building.text = building
         vh.room.text = room
         vh.joinBtn.setOnClickListener {
-            rowListener.joinGame(gameUid, num_players)
+            if(FirebaseAuth.getInstance().currentUser?.uid.toString() != "null") {
+                if(vh.joinBtn.text == "Join") {
+                    rowListener.joinGame(gameUid, num_players)
+                } else if(vh.joinBtn.text == "Joined") {
+                    rowListener.bailGame(gameUid, num_players)
+                }
+
+            } else {
+                rowListener.notLoggedIn()
+            }
+        }
+        if(joinedGameUid != null) {
+            for(x in 0 until joinedGameUid!!.size) {
+                if(gameUid == joinedGameUid!!.get(x)) {
+                    vh.joinBtn.setBackgroundResource(R.drawable.green_shadow)
+                    vh.joinBtn.text = "Joined"
+                    break
+                }
+            }
         }
 
         return view
@@ -77,14 +96,18 @@ class GameItemAdapter(context: Context, gameList: MutableList<Portal.GameItem>) 
 
 interface ItemRowListener {
     fun joinGame(itemObjectId: String, num_players: Int)
+    fun bailGame(itemObjectId: String, num_players: Int)
+    fun notLoggedIn()
 }
 
 var gameList: MutableList<Portal.GameItem>? = null
+var joinedGameUid: MutableList<String>? = null
 lateinit var  adapter: GameItemAdapter
 private var listViewItems: ListView? = null
 lateinit var mDatabase: DatabaseReference
 var num_games: Int? = null
 lateinit var refToUser: DatabaseReference
+var gameToRemove: String? = null
 
 class Portal : AppCompatActivity(), ItemRowListener {
 
@@ -92,17 +115,90 @@ class Portal : AppCompatActivity(), ItemRowListener {
         //adding uid to the game database
         val itemReference = FirebaseDatabase.getInstance().getReference("games").child(itemObjectId)
 
-        val nextRef = itemReference.child("players").child("player" + (num_players + 1))
         val uid = FirebaseAuth.getInstance().currentUser!!.uid.toString()
+        val nextRef = itemReference.child("players").child(uid).setValue("Player")
 
-        nextRef.setValue(uid)
         itemReference.child("num_players").setValue(num_players + 1)
 
         //adding gameUid to user database
-        refToUser.child("joined_games").child("game" + (num_games!! + 1)).setValue(itemObjectId)
+        refToUser.child("joined_games").child(itemObjectId).setValue("Game")
         refToUser.child("num_games").setValue(num_games!! + 1)
 
-        val intent = Intent(this, Portal :: class.java)
+        try {
+            Thread.sleep(300)
+        } finally {
+            startActivity(getIntent())
+        }
+    }
+
+    override fun bailGame(itemObjectId: String, num_players: Int) {
+        //removing player uid from the game database
+        val itemReference = FirebaseDatabase.getInstance().getReference("games").child(itemObjectId)
+
+        val playersRef = itemReference.child("players")
+        playersRef.orderByKey().addListenerForSingleValueEvent(removingPlayerListener) //removing the logged in uid from players list in a game
+        itemReference.child("num_players").setValue(num_players - 1)
+
+        //removing gameUid from user database
+        val joinedGamesRef = refToUser.child("joined_games")
+        gameToRemove = itemObjectId
+        joinedGamesRef.orderByKey().addListenerForSingleValueEvent(removingGameListener)
+        refToUser.child("num_games").setValue(num_games!! - 1)
+
+        try {
+            Thread.sleep(300)
+        } finally {
+            startActivity(getIntent())
+        }
+    }
+
+    val removingPlayerListener: ValueEventListener = object : ValueEventListener {
+        override fun onCancelled(p0: DatabaseError) {
+
+        }
+
+        override fun onDataChange(p0: DataSnapshot) {
+            val items = p0.children.iterator()
+
+            while (items.hasNext()) {
+                val currentItem = items.next()
+
+                val playerUid = currentItem.key.toString()
+                val loggedInUid = FirebaseAuth.getInstance().currentUser!!.uid.toString()
+
+                if(playerUid == loggedInUid) {
+                    currentItem.ref.removeValue()
+                    break
+                }
+            }
+        }
+    }
+
+    val removingGameListener: ValueEventListener = object : ValueEventListener {
+        override fun onCancelled(p0: DatabaseError) {
+
+        }
+
+        override fun onDataChange(p0: DataSnapshot) {
+            val items = p0.children.iterator()
+
+            while (items.hasNext()) {
+                val currentItem = items.next()
+
+                val gameUid = currentItem.key.toString()
+
+                if(gameUid == gameToRemove!!) {
+                    currentItem.ref.removeValue()
+                    break
+                }
+            }
+            adapter.notifyDataSetChanged()
+        }
+    }
+
+    override fun notLoggedIn()
+    {
+        val intent = Intent(this, Login :: class.java)
         startActivity(intent)
     }
 
@@ -114,12 +210,15 @@ class Portal : AppCompatActivity(), ItemRowListener {
 
         mDatabase = FirebaseDatabase.getInstance().getReference("games")
         gameList = mutableListOf<GameItem>()
-        adapter = GameItemAdapter(this, gameList!!)
+        joinedGameUid = mutableListOf<String>()
+        adapter = GameItemAdapter(this, gameList!!, joinedGameUid!!)
         listViewItems!!.setAdapter(adapter)
         mDatabase.orderByKey().addListenerForSingleValueEvent(itemListener)
 
-        refToUser = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().currentUser!!.uid.toString())
-        refToUser.orderByKey().addListenerForSingleValueEvent(userListener)
+        refToUser = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().currentUser?.uid.toString())
+        if(FirebaseAuth.getInstance().currentUser?.uid.toString() != "null") {
+            refToUser.orderByKey().addListenerForSingleValueEvent(userListener)
+        }
 
         CreateGame.setOnClickListener {
             val intent = Intent(this, AddGames :: class.java)
@@ -136,8 +235,27 @@ class Portal : AppCompatActivity(), ItemRowListener {
 
         override fun onDataChange(p0: DataSnapshot) {
             num_games = p0.child("num_games").value.toString().toInt()
+            addGamesJoined(p0.child("joined_games"))
         }
 
+    }
+
+    private fun addGamesJoined(dataSnapshot: DataSnapshot) {
+        val items = dataSnapshot.children.iterator()
+
+        //check if the collection has any to do items or not
+        while (items.hasNext()) {
+            //get current item
+            val currentItem = items.next()
+
+            //get current data in a map
+            val gameUid = currentItem.key.toString()
+
+            Log.w("Adding joined to List", gameUid)
+            joinedGameUid!!.add(gameUid);
+        }
+        //alert adapter that has changed
+        adapter.notifyDataSetChanged()
     }
 
     var itemListener: ValueEventListener = object : ValueEventListener {
@@ -182,10 +300,10 @@ class Portal : AppCompatActivity(), ItemRowListener {
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
-            R.id.more -> {
+            /*R.id.more -> {
                 println("more pressed")
                 return@OnNavigationItemSelectedListener true
-            }
+            }*/
             R.id.home -> {
                 println("home pressed")
                 val intent = Intent(this, Portal :: class.java)
