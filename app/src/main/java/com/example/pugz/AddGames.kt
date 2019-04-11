@@ -132,10 +132,10 @@ class AddGames : AppCompatActivity() {
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
-            R.id.more -> {
+            /*R.id.more -> {
                 println("more pressed")
                 return@OnNavigationItemSelectedListener true
-            }
+            }*/
             R.id.home -> {
                 println("home pressed")
                 val intent = Intent(this, Portal :: class.java)
@@ -172,14 +172,14 @@ class AddGames : AppCompatActivity() {
         ref.child("games").child(gameUid).setValue(game)
             .addOnSuccessListener {
                 Log.d("AddGame", "Game saved to database")
-                ref.child("games").child(gameUid).child("players").child("player1").setValue(uid)
+                ref.child("games").child(gameUid).child("players").child(uid).setValue("Player")
                     .addOnSuccessListener {
                         Log.d("AddPlayers", "Player saved to game database")
                         ref.child("games").child(gameUid).child("num_players").setValue("1")
                             .addOnSuccessListener {
                                 Log.d("AddPlayers", "Number of Players saved to game database")
 
-                                refToUser.child("joined_games").child("game" + (num_games!! + 1)).setValue(gameUid)
+                                refToUser.child("joined_games").child(gameUid).setValue("Game")
                                 refToUser.child("num_games").setValue(num_games!! + 1)
 
                                 val intent = Intent(this, Portal :: class.java)

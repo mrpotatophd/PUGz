@@ -52,10 +52,10 @@ class Profile : AppCompatActivity() {
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
-            R.id.more -> {
+            /*R.id.more -> {
                 println("more pressed")
                 return@OnNavigationItemSelectedListener true
-            }
+            }*/
             R.id.home -> {
                 println("home pressed")
                 val intent = Intent(this, Portal :: class.java)

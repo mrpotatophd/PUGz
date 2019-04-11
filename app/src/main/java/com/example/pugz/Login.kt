@@ -30,24 +30,44 @@ class Login : AppCompatActivity() {
             val email = emailText.text.toString()
             val password = passwordText.text.toString()
 
-            FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener {
-                    if (!it.isSuccessful) return@addOnCompleteListener
+            if(email != "" && password != "") {
+                FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener {
+                        if (!it.isSuccessful) return@addOnCompleteListener
 
-                    // else if successful
-                    Log.d("Login", "Successfully login user with uid: ${it.result.user.uid}")
-                    val intent = Intent(this, Portal :: class.java)
-                    startActivity(intent)
+                        // else if successful
+                        Log.d("Login", "Successfully login user with uid: ${it.result.user.uid}")
+                        val intent = Intent(this, Portal::class.java)
+                        startActivity(intent)
+                    }
+                    .addOnFailureListener {
+                        emailText.setBackgroundResource(R.drawable.rounded_text_red)
+                        passwordText.setBackgroundResource(R.drawable.rounded_text_red)
+                    }
+            } else {
+                if(email == "")
+                {
+                    emailText.setBackgroundResource(R.drawable.rounded_text_red)
+                } else {
+                    emailText.setBackgroundResource(R.drawable.rounded_text)
                 }
+
+                if(password == "")
+                {
+                    passwordText.setBackgroundResource(R.drawable.rounded_text_red)
+                } else {
+                    passwordText.setBackgroundResource(R.drawable.rounded_text)
+                }
+            }
         }
     }
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
-            R.id.more -> {
+            /*R.id.more -> {
                 println("more pressed")
                 return@OnNavigationItemSelectedListener true
-            }
+            }*/
             R.id.home -> {
                 println("home pressed")
                 val intent = Intent(this, Portal :: class.java)
