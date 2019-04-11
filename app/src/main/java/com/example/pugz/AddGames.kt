@@ -39,7 +39,7 @@ class AddGames : AppCompatActivity() {
             override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
                 cal.set(Calendar.YEAR, year)
                 cal.set(Calendar.MONTH, month)
-                cal.set(Calendar.DAY_OF_YEAR, dayOfMonth)
+                cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
                 updateDateInView()
             }
         }
@@ -156,7 +156,7 @@ class AddGames : AppCompatActivity() {
     private fun updateDateInView() {
         val myFormat = "MM-dd-yyyy" // mention the format you need
         val sdf = SimpleDateFormat(myFormat, Locale.US)
-        textview_date!!.text = sdf.format(cal.getTime())
+        textview_date!!.text = sdf.format(cal.time)
     }
 
     private fun addGameToDatabase() {
