@@ -48,7 +48,7 @@
                             android:layout_height="wrap_content" android:id="@+id/textView7"
                             android:textColor="@android:color/white" android:background="@android:color/black"/>
                     <TextView
-                            android:text="Room           :"
+                            android:text="Room/Gym  :"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" android:id="@+id/textView88"
                             android:textColor="@android:color/white" android:background="@android:color/black"/>
