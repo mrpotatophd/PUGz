@@ -220,10 +220,12 @@ class Portal : AppCompatActivity(), ItemRowListener {
             refToUser.orderByKey().addListenerForSingleValueEvent(userListener)
         }
 
+        /*
         CreateGame.setOnClickListener {
             val intent = Intent(this, AddGames :: class.java)
             startActivity(intent)
         }
+        */
 
         bottomNav.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
     }
@@ -307,6 +309,12 @@ class Portal : AppCompatActivity(), ItemRowListener {
             R.id.home -> {
                 println("home pressed")
                 val intent = Intent(this, Portal :: class.java)
+                startActivity(intent)
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.addGame -> {
+                println("Add Game pressed")
+                val intent = Intent(this, AddGames :: class.java)
                 startActivity(intent)
                 return@OnNavigationItemSelectedListener true
             }

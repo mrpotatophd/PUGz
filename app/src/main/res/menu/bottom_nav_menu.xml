@@ -13,6 +13,11 @@
             android:icon="@drawable/home"/>
 
     <item
+            android:id="@+id/addGame"
+            android:title="Add Game"
+            android:icon="@drawable/addbutton"/>
+
+    <item
             android:id="@+id/profile"
             android:title="Profile"
             android:icon="@drawable/account"/>

@@ -40,7 +40,7 @@
             app:itemIconTint="@android:color/white"
             app:itemTextColor="@android:color/white"
             android:background="@android:color/black"/>
-    <Button
+    <!--<Button
             android:text="Create"
             android:layout_width="91dp"
             android:layout_height="43dp"
@@ -51,5 +51,6 @@
             app:layout_constraintStart_toEndOf="@+id/editText2" android:layout_marginLeft="20dp"
             android:layout_marginStart="20dp"
             android:layout_marginBottom="16dp" app:layout_constraintBottom_toTopOf="@+id/items_list"/>
+            -->
 
 </android.support.constraint.ConstraintLayout>
