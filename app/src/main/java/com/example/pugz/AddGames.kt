@@ -121,7 +121,7 @@ class AddGames : AppCompatActivity() {
                     this.roomText.setBackgroundResource(R.drawable.rounded_text_red)
                 }
 
-                if (timeOK && dateOK && buildingOK && roomOK) {
+                if (sportOK && locationOK && timeOK && dateOK && buildingOK && roomOK) {
                     addGameToDatabase();
                 }
             }
