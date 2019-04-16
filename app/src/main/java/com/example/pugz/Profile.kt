@@ -62,6 +62,12 @@ class Profile : AppCompatActivity() {
                 startActivity(intent)
                 return@OnNavigationItemSelectedListener true
             }
+            R.id.addGame -> {
+                println("Add Game pressed")
+                val intent = Intent(this, AddGames :: class.java)
+                startActivity(intent)
+                return@OnNavigationItemSelectedListener true
+            }
             R.id.profile -> {
                 println("profile pressed")
                 val intent = Intent(this, Profile :: class.java)
