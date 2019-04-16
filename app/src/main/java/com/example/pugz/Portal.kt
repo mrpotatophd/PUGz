@@ -51,9 +51,19 @@ class GameItemAdapter(context: Context, gameList: MutableList<Portal.GameItem>, 
         vh.room.text = room
         vh.joinBtn.setOnClickListener {
             if(FirebaseAuth.getInstance().currentUser?.uid.toString() != "null") {
-                if(vh.joinBtn.text == "Join") {
+                var found = false
+                if(joinedGameUid != null) {
+                    for(x in 0 until joinedGameUid!!.size) {
+                        if(gameUid == joinedGameUid!!.get(x)) {
+                            found = true
+                            break
+                        }
+                    }
+                }
+                Log.w("USER FOUND", found.toString())
+                if(found == false) {
                     rowListener.joinGame(gameUid, num_players)
-                } else if(vh.joinBtn.text == "Joined") {
+                } else {
                     rowListener.bailGame(gameUid, num_players)
                 }
 
@@ -108,6 +118,7 @@ lateinit var mDatabase: DatabaseReference
 var num_games: Int? = null
 lateinit var refToUser: DatabaseReference
 var gameToRemove: String? = null
+var joinedGame: Boolean? = false
 
 class Portal : AppCompatActivity(), ItemRowListener {
 
