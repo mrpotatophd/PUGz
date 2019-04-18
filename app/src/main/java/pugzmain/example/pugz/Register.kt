@@ -1,10 +1,11 @@
-package com.example.pugz
+package pugzmain.example.pugz
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.util.Log
+import com.example.pugz.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_register.*
@@ -18,7 +19,7 @@ class Register : AppCompatActivity() {
         bottomNav.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
         loginBtn.setOnClickListener {
-            val intent = Intent(this, Login :: class.java)
+            val intent = Intent(this, Login:: class.java)
             startActivity(intent)
         }
 
@@ -76,19 +77,19 @@ class Register : AppCompatActivity() {
             }*/
             R.id.home -> {
                 println("home pressed")
-                val intent = Intent(this, Portal :: class.java)
+                val intent = Intent(this, Portal:: class.java)
                 startActivity(intent)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.addGame -> {
                 println("Add Game pressed")
-                val intent = Intent(this, AddGames :: class.java)
+                val intent = Intent(this, AddGames:: class.java)
                 startActivity(intent)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.profile -> {
                 println("profile pressed")
-                val intent = Intent(this, Profile :: class.java)
+                val intent = Intent(this, Profile:: class.java)
                 startActivity(intent)
                 return@OnNavigationItemSelectedListener true
             }
@@ -101,12 +102,18 @@ class Register : AppCompatActivity() {
         val uid = FirebaseAuth.getInstance().uid ?: ""
         val ref = FirebaseDatabase.getInstance().reference
 
-        val user = User(uid, firstNameText.text.toString(), lastNameText.text.toString(), emailText.text.toString(), 0)
+        val user = User(
+            uid,
+            firstNameText.text.toString(),
+            lastNameText.text.toString(),
+            emailText.text.toString(),
+            0
+        )
 
         ref.child("users").child(uid).setValue(user)
             .addOnSuccessListener {
                 Log.d("Register", "User saved to database")
-                val intent = Intent(this, Login :: class.java)
+                val intent = Intent(this, Login:: class.java)
                 startActivity(intent)
             }
             .addOnFailureListener {
