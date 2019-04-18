@@ -1,4 +1,4 @@
-package com.example.pugz
+package pugzmain.example.pugz
 
 import org.junit.Test
 

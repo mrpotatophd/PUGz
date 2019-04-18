@@ -1,4 +1,4 @@
-package com.example.pugz
+package pugzmain.example.pugz
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
@@ -11,6 +11,7 @@ import android.widget.DatePicker
 import android.widget.TimePicker
 import android.graphics.Color
 import android.widget.TextView
+import com.example.pugz.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -63,7 +64,7 @@ class AddGames : AppCompatActivity() {
 
         CreateGameBtn.setOnClickListener {
             if(FirebaseAuth.getInstance().currentUser == null) {
-                val intent = Intent(this, Login :: class.java)
+                val intent = Intent(this, Login:: class.java)
                 startActivity(intent)
             }
             else {
@@ -138,19 +139,19 @@ class AddGames : AppCompatActivity() {
             }*/
             R.id.home -> {
                 println("home pressed")
-                val intent = Intent(this, Portal :: class.java)
+                val intent = Intent(this, Portal:: class.java)
                 startActivity(intent)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.addGame -> {
                 println("Add Game pressed")
-                val intent = Intent(this, AddGames :: class.java)
+                val intent = Intent(this, AddGames:: class.java)
                 startActivity(intent)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.profile -> {
                 println("profile pressed")
-                val intent = Intent(this, Profile :: class.java)
+                val intent = Intent(this, Profile:: class.java)
                 startActivity(intent)
                 return@OnNavigationItemSelectedListener true
             }
@@ -173,7 +174,16 @@ class AddGames : AppCompatActivity() {
         val timeData = this.timeTextView.text.toString()
         val gameUid = uid + "_" + dateData + "_" + timeData
 
-        val game = Game(gameUid, uid, this.sportSpinner.selectedItem.toString(), this.locationSpinner.selectedItem.toString(), this.buildingText.text.toString(), this.dateTextView.text.toString(), this.timeTextView.text.toString(), this.roomText.text.toString())
+        val game = Game(
+            gameUid,
+            uid,
+            this.sportSpinner.selectedItem.toString(),
+            this.locationSpinner.selectedItem.toString(),
+            this.buildingText.text.toString(),
+            this.dateTextView.text.toString(),
+            this.timeTextView.text.toString(),
+            this.roomText.text.toString()
+        )
 
         ref.child("games").child(gameUid).setValue(game)
             .addOnSuccessListener {
@@ -188,7 +198,7 @@ class AddGames : AppCompatActivity() {
                                 refToUser.child("joined_games").child(gameUid).setValue("Game")
                                 refToUser.child("num_games").setValue(num_games!! + 1)
 
-                                val intent = Intent(this, Portal :: class.java)
+                                val intent = Intent(this, Portal:: class.java)
                                 startActivity(intent)
                             }
                             .addOnFailureListener {

@@ -1,4 +1,4 @@
-package com.example.pugz
+package pugzmain.example.pugz
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4

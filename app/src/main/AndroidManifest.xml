@@ -4,20 +4,21 @@
 
     <application
             android:allowBackup="true"
-            android:icon="@mipmap/ic_launcher"
+            android:icon="@mipmap/logo3"
             android:label="@string/app_name"
-            android:roundIcon="@mipmap/ic_launcher_round"
+            android:roundIcon="@mipmap/logo3"
             android:supportsRtl="true"
-            android:theme="@style/AppTheme">
-        <activity android:name=".Register">
+            android:theme="@style/AppTheme"
+            android:debuggable="false">
+        <activity android:name="pugzmain.example.pugz.Register">
         </activity>
-        <activity android:name=".Login">
+        <activity android:name="pugzmain.example.pugz.Login">
         </activity>
-        <activity android:name=".AddGames">
+        <activity android:name="pugzmain.example.pugz.AddGames">
         </activity>
-        <activity android:name=".Profile">
+        <activity android:name="pugzmain.example.pugz.Profile">
         </activity>
-        <activity android:name=".Portal">
+        <activity android:name="pugzmain.example.pugz.Portal">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

@@ -1,4 +1,4 @@
-package com.example.pugz
+package pugzmain.example.pugz
 
 import android.content.Context
 import android.util.Log
@@ -13,6 +13,7 @@ import android.widget.BaseAdapter
 import android.widget.Button
 import android.widget.TextView
 import android.widget.ListView
+import com.example.pugz.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_portal.*
@@ -93,14 +94,14 @@ class GameItemAdapter(context: Context, gameList: MutableList<Portal.GameItem>, 
         return gameList.size
     }
     private class ListRowHolder(row: View) {
-        val sport: TextView = row!!.findViewById<TextView>(R.id.sportPortalView) as TextView
-        val num_player: TextView = row!!.findViewById<TextView>(R.id.numPlayerPortalView) as TextView
-        val date: TextView = row!!.findViewById<TextView>(R.id.datePortalView) as TextView
-        val time: TextView = row!!.findViewById<TextView>(R.id.timePortalView) as TextView
-        val location: TextView = row!!.findViewById<TextView>(R.id.locationPortalView) as TextView
-        val building: TextView = row!!.findViewById<TextView>(R.id.buildingPortalView) as TextView
-        val room: TextView = row!!.findViewById<TextView>(R.id.roomPortalView) as TextView
-        val joinBtn: Button = row!!.findViewById<Button>(R.id.joinBtn) as Button
+        val sport: TextView = row.findViewById<TextView>(R.id.sportPortalView) as TextView
+        val num_player: TextView = row.findViewById<TextView>(R.id.numPlayerPortalView) as TextView
+        val date: TextView = row.findViewById<TextView>(R.id.datePortalView) as TextView
+        val time: TextView = row.findViewById<TextView>(R.id.timePortalView) as TextView
+        val location: TextView = row.findViewById<TextView>(R.id.locationPortalView) as TextView
+        val building: TextView = row.findViewById<TextView>(R.id.buildingPortalView) as TextView
+        val room: TextView = row.findViewById<TextView>(R.id.roomPortalView) as TextView
+        val joinBtn: Button = row.findViewById<Button>(R.id.joinBtn) as Button
     }
 }
 
@@ -125,11 +126,10 @@ class Portal : AppCompatActivity(), ItemRowListener {
     override fun joinGame(itemObjectId: String, num_players: Int) {
         //adding uid to the game database
         val itemReference = FirebaseDatabase.getInstance().getReference("games").child(itemObjectId)
-
         val uid = FirebaseAuth.getInstance().currentUser!!.uid.toString()
-        val nextRef = itemReference.child("players").child(uid).setValue("Player")
 
         itemReference.child("num_players").setValue(num_players + 1)
+        itemReference.child("players").child(uid).setValue("Player")
 
         //adding gameUid to user database
         refToUser.child("joined_games").child(itemObjectId).setValue("Game")
@@ -209,7 +209,7 @@ class Portal : AppCompatActivity(), ItemRowListener {
 
     override fun notLoggedIn()
     {
-        val intent = Intent(this, Login :: class.java)
+        val intent = Intent(this, Login:: class.java)
         startActivity(intent)
     }
 
@@ -222,7 +222,11 @@ class Portal : AppCompatActivity(), ItemRowListener {
         mDatabase = FirebaseDatabase.getInstance().getReference("games")
         gameList = mutableListOf<GameItem>()
         joinedGameUid = mutableListOf<String>()
-        adapter = GameItemAdapter(this, gameList!!, joinedGameUid!!)
+        adapter = GameItemAdapter(
+            this,
+            gameList!!,
+            joinedGameUid!!
+        )
         listViewItems!!.setAdapter(adapter)
         mDatabase.orderByKey().addListenerForSingleValueEvent(itemListener)
 
@@ -319,19 +323,19 @@ class Portal : AppCompatActivity(), ItemRowListener {
             }*/
             R.id.home -> {
                 println("home pressed")
-                val intent = Intent(this, Portal :: class.java)
+                val intent = Intent(this, Portal:: class.java)
                 startActivity(intent)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.addGame -> {
                 println("Add Game pressed")
-                val intent = Intent(this, AddGames :: class.java)
+                val intent = Intent(this, AddGames:: class.java)
                 startActivity(intent)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.profile -> {
                 println("profile pressed")
-                val intent = Intent(this, Profile :: class.java)
+                val intent = Intent(this, Profile:: class.java)
                 startActivity(intent)
                 return@OnNavigationItemSelectedListener true
             }

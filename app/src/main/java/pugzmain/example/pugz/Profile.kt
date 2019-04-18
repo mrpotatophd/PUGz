@@ -1,10 +1,11 @@
-package com.example.pugz
+package pugzmain.example.pugz
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.util.Log
+import com.example.pugz.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -16,7 +17,7 @@ class Profile : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         if(FirebaseAuth.getInstance().currentUser == null) {
-            val intent = Intent(this, Login :: class.java)
+            val intent = Intent(this, Login:: class.java)
             startActivity(intent)
         }
 
@@ -45,7 +46,7 @@ class Profile : AppCompatActivity() {
             val loggedInUser = FirebaseAuth.getInstance()
 
             loggedInUser.signOut()
-            val intent = Intent(this, Login :: class.java)
+            val intent = Intent(this, Login:: class.java)
             startActivity(intent)
         }
     }
@@ -58,19 +59,19 @@ class Profile : AppCompatActivity() {
             }*/
             R.id.home -> {
                 println("home pressed")
-                val intent = Intent(this, Portal :: class.java)
+                val intent = Intent(this, Portal:: class.java)
                 startActivity(intent)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.addGame -> {
                 println("Add Game pressed")
-                val intent = Intent(this, AddGames :: class.java)
+                val intent = Intent(this, AddGames:: class.java)
                 startActivity(intent)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.profile -> {
                 println("profile pressed")
-                val intent = Intent(this, Profile :: class.java)
+                val intent = Intent(this, Profile:: class.java)
                 startActivity(intent)
                 return@OnNavigationItemSelectedListener true
             }
