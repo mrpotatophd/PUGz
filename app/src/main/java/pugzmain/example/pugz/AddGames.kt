@@ -174,7 +174,7 @@ class AddGames : AppCompatActivity() {
         val timeData = this.timeTextView.text.toString()
         val gameUid = uid + "_" + dateData + "_" + timeData
 
-        val game = Game(
+        /*val game = Game(
             gameUid,
             uid,
             this.sportSpinner.selectedItem.toString(),
@@ -183,36 +183,76 @@ class AddGames : AppCompatActivity() {
             this.dateTextView.text.toString(),
             this.timeTextView.text.toString(),
             this.roomText.text.toString()
-        )
+        )*/
 
-        ref.child("games").child(gameUid).setValue(game)
+        ref.child("games").child(gameUid).child("building").setValue(this.buildingText.text.toString())
             .addOnSuccessListener {
-                Log.d("AddGame", "Game saved to database")
-                ref.child("games").child(gameUid).child("players").child(uid).setValue("Player")
+                ref.child("games").child(gameUid).child("date").setValue(this.dateTextView.text.toString())
                     .addOnSuccessListener {
-                        Log.d("AddPlayers", "Player saved to game database")
-                        ref.child("games").child(gameUid).child("num_players").setValue("1")
+                        ref.child("games").child(gameUid).child("gameUid").setValue(gameUid)
                             .addOnSuccessListener {
-                                Log.d("AddPlayers", "Number of Players saved to game database")
+                                ref.child("games").child(gameUid).child("location").setValue(this.locationSpinner.selectedItem.toString())
+                                    .addOnSuccessListener {
+                                        ref.child("games").child(gameUid).child("num_players").setValue("1")
+                                            .addOnSuccessListener {
+                                                ref.child("games").child(gameUid).child("players").child(uid).setValue("Player")
+                                                    .addOnSuccessListener {
+                                                        ref.child("games").child(gameUid).child("room").setValue(this.roomText.text.toString())
+                                                            .addOnSuccessListener {
+                                                                ref.child("games").child(gameUid).child("sport").setValue(this.sportSpinner.selectedItem.toString())
+                                                                    .addOnSuccessListener {
+                                                                        ref.child("games").child(gameUid).child("time").setValue(this.timeTextView.text.toString())
+                                                                            .addOnSuccessListener {
+                                                                                ref.child("games").child(gameUid).child("userUid").setValue(uid)
+                                                                                    .addOnSuccessListener {
+                                                                                        Log.d("AddGame", "Game saved to database")
 
-                                refToUser.child("joined_games").child(gameUid).setValue("Game")
-                                refToUser.child("num_games").setValue(num_games!! + 1)
+                                                                                        refToUser.child("joined_games").child(gameUid).setValue("Game")
+                                                                                        refToUser.child("num_games").setValue(num_games!! + 1)
 
-                                val intent = Intent(this, Portal:: class.java)
-                                startActivity(intent)
+                                                                                        val intent = Intent(this, Portal:: class.java)
+                                                                                        startActivity(intent)
+                                                                                    }
+                                                                                    .addOnFailureListener {
+                                                                                        Log.d("Register", "Failed to save userUid to database $gameUid")
+                                                                                    }
+                                                                            }
+                                                                            .addOnFailureListener {
+                                                                                Log.d("Register", "Failed to save time to database $gameUid")
+                                                                            }
+                                                                    }
+                                                                    .addOnFailureListener {
+                                                                        Log.d("Register", "Failed to save sport to database $gameUid")
+                                                                    }
+                                                            }
+                                                            .addOnFailureListener {
+                                                                Log.d("Register", "Failed to save room to database $gameUid")
+                                                            }
+                                                    }
+                                                    .addOnFailureListener {
+                                                        Log.d("Register", "Failed to save players to database $gameUid")
+                                                    }
+                                            }
+                                            .addOnFailureListener {
+                                                Log.d("Register", "Failed to save num_players to database $gameUid")
+                                            }
+                                    }
+                                    .addOnFailureListener {
+                                        Log.d("Register", "Failed to save location to database $gameUid")
+                                    }
                             }
                             .addOnFailureListener {
-                                Log.d("AddPlayers", "Failed to save data to database $uid")
+                                Log.d("Register", "Failed to save gameUid to database $gameUid")
                             }
                     }
                     .addOnFailureListener {
-                        Log.d("AddPlayers", "Failed to save data to database $uid")
+                        Log.d("Register", "Failed to save date to database $gameUid")
                     }
             }
             .addOnFailureListener {
-                Log.d("Register", "Failed to save data to database $gameUid")
+                Log.d("Register", "Failed to save building to database $gameUid")
             }
     }
 
-    class Game(val gameUid: String, val userUid:String, val sport: String, val location:String, val building:String, val date: String, val time:String, val room:String)
+    //class Game(val gameUid: String, val userUid:String, val sport: String, val location:String, val building:String, val date: String, val time:String, val room:String)
 }

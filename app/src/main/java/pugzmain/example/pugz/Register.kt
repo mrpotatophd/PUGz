@@ -100,26 +100,50 @@ class Register : AppCompatActivity() {
 
     private fun saveUserToDatabase() {
         val uid = FirebaseAuth.getInstance().uid ?: ""
-        val ref = FirebaseDatabase.getInstance().reference
+        val ref = FirebaseDatabase.getInstance().getReference("users")
 
-        val user = User(
+        /*val user = User(
             uid,
             firstNameText.text.toString(),
             lastNameText.text.toString(),
             emailText.text.toString(),
             0
-        )
+        )*/
 
-        ref.child("users").child(uid).setValue(user)
+        ref.child(uid!!).child("email").setValue(emailText.text.toString())
             .addOnSuccessListener {
-                Log.d("Register", "User saved to database")
-                val intent = Intent(this, Login:: class.java)
-                startActivity(intent)
+                ref.child(uid!!).child("fname").setValue(firstNameText.text.toString())
+                    .addOnSuccessListener {
+                        ref.child(uid!!).child("lname").setValue(lastNameText.text.toString())
+                            .addOnSuccessListener {
+                                ref.child(uid!!).child("num_games").setValue("0")
+                                    .addOnSuccessListener {
+                                        ref.child(uid!!).child("uid").setValue(uid!!)
+                                            .addOnSuccessListener {
+                                                Log.d("Register", "User saved to database")
+                                                val intent = Intent(this, Login:: class.java)
+                                                startActivity(intent)
+                                            }
+                                            .addOnFailureListener {
+                                                Log.d("Register", "Failed to save uid to database $uid")
+                                            }
+                                    }
+                                    .addOnFailureListener {
+                                        Log.d("Register", "Failed to save num_games to database $uid")
+                                    }
+                            }
+                            .addOnFailureListener {
+                                Log.d("Register", "Failed to save lname to database $uid")
+                            }
+                    }
+                    .addOnFailureListener {
+                        Log.d("Register", "Failed to save fname to database $uid")
+                    }
             }
             .addOnFailureListener {
-                Log.d("Register", "Failed to save data to database $uid")
+                Log.d("Register", "Failed to save email to database $uid")
             }
     }
 
-    class User(val uid: String, val fName: String, val lName:String, val email:String, val num_games:Int)
+    //class User(val uid: String, val fName: String, val lName:String, val email:String, val num_games:Int)
 }
